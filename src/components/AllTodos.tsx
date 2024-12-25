@@ -34,7 +34,7 @@ function AllTodos({
               <UpdateTodoPopUp
                 todo={todo}
                 id={id}
-                handleUpdate={handleUpdate} // Pass handleUpdate
+                handleUpdate={handleUpdate} 
               />
               <MdDelete
                 onClick={() => handleDelete(id)}
