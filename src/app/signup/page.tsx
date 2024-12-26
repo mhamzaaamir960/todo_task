@@ -1,5 +1,5 @@
-import { Input } from "@/components/ui/input";
 import React from "react";
+import { Input } from "@/components/ui/input";
 
 function page() {
   return (
@@ -7,7 +7,6 @@ function page() {
       <h1 className="font-bold text-black text-center text-[35px]">
         SignUp Form
       </h1>
-
       <Input
         type="text"
         placeholder="Enter your name..."
