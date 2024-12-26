@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest) {
   try {
     // get name, email and password from frontend
     // check name email and password are not empty
     // check already user exists
     // hash password
+    // create new user
+    // return a next response
 
     const { name, email, password } = await request.json();
 
