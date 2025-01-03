@@ -1,6 +1,7 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 interface signUpType {
   name: string;
@@ -21,7 +22,8 @@ function page() {
       (prevData: signUpType) => ({ ...prevData, [name]: value } as signUpType)
     );
   };
-
+  
+  const router = useRouter();
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -30,9 +32,11 @@ function page() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify( data ),
+        body: JSON.stringify(data),
       });
-      if (!response.ok) {
+      if (response.ok) {
+        router.push("/login");
+      } else {
         throw new Error(
           `Failed to post data: ${response.status} - ${response.statusText}`
         );
@@ -79,7 +83,10 @@ function page() {
         placeholder="Enter your password..."
         className="max-w-[400px]"
       />
-      <button type="submit" className="font-medium text-xl text-white bg-blue-400 hover:bg-blue-400/90 px-10 py-1 rounded-full mt-5">
+      <button
+        type="submit"
+        className="font-medium text-xl text-white bg-blue-400 hover:bg-blue-400/90 px-10 py-1 rounded-full mt-5"
+      >
         Sign Up
       </button>
     </form>

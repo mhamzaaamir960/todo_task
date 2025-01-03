@@ -12,22 +12,44 @@ function AllTodos({
 }) {
   const handleDelete = async (id: string) => {
     try {
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
       const response = await fetch(`/api/todo/${id}`, { method: "DELETE" });
       console.log(response);
       if (!response.ok) {
-        throw new Error("Something went wrong!");
+        throw new Error("Failed to delete the todo");
       }
     } catch (error: any) {
       console.log(`Error: ${error.message}`);
+      setTodos((prevTodos: Todo[]) => [
+        ...prevTodos,
+        todos.find((todo: Todo) => todo.id === id)!,
+      ]);
     }
   };
 
-  const handleUpdate = (id: string, updatedTodo: string) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, content: updatedTodo } : todo
-      )
-    );
+  const handleUpdate = async (id: string, updatedTodo: string) => {
+    try {
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === id ? { ...todo, content: updatedTodo } : todo
+        )
+      );
+
+      const response = await fetch(`/api/todo/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Conetnt-Type": "application/json",
+        },
+        body: JSON.stringify({ updatedTodo }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update todo!");
+      }
+      const data = await response.json();
+      console.log(data);
+    } catch (error: any) {
+      console.log(`Error: ${error.message}`);
+    }
   };
 
   return (
@@ -35,7 +57,7 @@ function AllTodos({
       {todos.length > 0 ? (
         todos.map((todo: Todo) => (
           <div
-            key={todo.id}
+            key={todo.id+2}
             className="w-full h-14 flex justify-between items-center bg-[#F3FBFE] border border-blue-400 rounded-xl p-2"
           >
             <p>{todo.content}</p>

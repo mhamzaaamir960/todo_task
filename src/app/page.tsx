@@ -26,6 +26,8 @@ export default function Home() {
     if (!todo.content.trim()) return;
 
     try {
+      setTodos((prevTodos) => [...prevTodos, todo]);
+
       const response = await fetch("/api/todo", {
         method: "POST",
         headers: {
@@ -40,9 +42,6 @@ export default function Home() {
 
       const data = await response.json();
       console.log(data);
-
-      setTodos((prevTodos) => [data.todo, ...prevTodos]);
-
       setTodo({ ...todo, content: "" });
 
       return response;

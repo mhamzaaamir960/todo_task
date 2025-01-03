@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { ChangeEvent } from "react";
 
 interface Data {
@@ -8,18 +9,23 @@ interface Data {
   name: string;
 }
 
-const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault();
-  try {
-    const response = await fetch("/api/user/logout");
-    // console.log(response);
-    return response;
-  } catch (error: any) {
-    console.error(`Error: ${error.message}`);
-  }
-};
 
 function Navbar() {
+  const router = useRouter();
+  
+  const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/user/logout");
+      if (response.ok) {
+        router.push("/login");
+      } else {
+        console.log("Failed to logout! Please try again");
+      }
+    } catch (error: any) {
+      console.error(`Error: ${error.message}`);
+    }
+  };
   return (
     <nav className="w-full h-[90px] bg-blue-400 flex justify-center items-center">
       <div className="max-w-[1800px] w-full flex justify-around items-center">

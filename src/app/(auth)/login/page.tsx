@@ -1,6 +1,7 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 interface loginType {
   email: string;
@@ -12,6 +13,7 @@ function page() {
     email: "",
     password: "",
   });
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,7 +30,9 @@ function page() {
         },
         body: JSON.stringify(data),
       });
-      if (!response.ok) {
+      if (response.ok) {
+        router.push("/");
+      } else {
         throw new Error(
           `Failed to post data: ${response.status} - ${response.statusText}`
         );

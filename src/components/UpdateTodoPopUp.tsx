@@ -45,14 +45,12 @@ function UpdateTodoPopUp({
             className="outline-green-400"
           />
 
-          <DialogClose>
-            <button
-              type="button"
-              onClick={() => handleUpdate(updateTodo.id, updateTodo.content)}
-              className="w-[50px] h-[50px] flex justify-center items-center bg-green-400 hover:bg-opacity-90 rounded-full"
-            >
-              <FaEdit className="text-white text-2xl" />
-            </button>
+          <DialogClose
+            type="button"
+            onClick={() => handleUpdate(updateTodo.id, updateTodo.content)}
+            className="w-[50px] h-[50px] flex justify-center items-center bg-green-400 hover:bg-opacity-90 rounded-full"
+          >
+            <FaEdit className="text-white text-2xl" />
           </DialogClose>
         </div>
       </DialogContent>
