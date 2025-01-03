@@ -10,20 +10,45 @@ interface ProfileData {
   email: string;
 }
 
+export interface Todo {
+  id: string;
+  content: string;
+  userId: string;
+}
+
 export default function Home() {
-  const [todo, setTodo] = useState<string>("");
-  const [todos, setTodos] = useState<string[]>([]);
+  const [todo, setTodo] = useState<Todo>({ id: "", content: "", userId: "" });
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
 
-  const handleAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAdd = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (todo.trim() === "") return;
-    if (todos.includes(todo)) {
-      alert("Todo already exists!");
-      return;
+    if (!todo.content.trim()) return;
+
+    try {
+      const response = await fetch("/api/todo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ todo: todo.content }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      setTodos((prevTodos) => [data.todo, ...prevTodos]);
+
+      setTodo({ ...todo, content: "" });
+
+      return response;
+    } catch (error: any) {
+      console.log(`Error: ${error.message}`);
     }
-    setTodos((prevTodos) => [todo, ...prevTodos]);
-    setTodo("");
   };
 
   useEffect(() => {
@@ -33,9 +58,26 @@ export default function Home() {
         const data = await response.json();
         console.log(data);
         setProfileData(data.data);
-        if (!data) return;
       } catch (error) {
         console.log("Error fetching profile data:", error);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch("/api/todo");
+        const data = await response.json();
+        console.log(data.data);
+
+        if (!response.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        setTodos(data.todos);
+      } catch (error: any) {
+        console.log(`Error: ${error.message}`);
       }
     })();
   }, []);
@@ -52,8 +94,8 @@ export default function Home() {
         <Input
           type="text"
           required
-          value={todo}
-          onChange={(e) => setTodo(e.target.value)}
+          value={todo.content}
+          onChange={(e) => setTodo({ ...todo, content: e.target.value })}
           placeholder="Add your todo..."
           className="outline-blue-400"
         />

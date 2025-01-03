@@ -4,25 +4,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { FaEdit } from "react-icons/fa";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Todo } from "@/app/page";
 
 function UpdateTodoPopUp({
   todo,
-  id,
   handleUpdate,
 }: {
-  todo: string;
-  id: number;
-  handleUpdate: (id: number, updatedTodo: string) => void;
+  todo: Todo;
+  handleUpdate: (id: string, updatedTodo: string) => void;
 }) {
-  const [updateTodo, setUpdateTodo] = useState<string>(todo);
+  const [updateTodo, setUpdateTodo] = useState<Todo>(todo);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUpdateTodo(e.target.value);
-  };
+  useEffect(() => {
+    setUpdateTodo(todo);
+  }, [todo]);
 
   return (
     <Dialog>
@@ -32,23 +32,29 @@ function UpdateTodoPopUp({
       <DialogContent>
         <DialogHeader className="flex flex-col gap-y-5">
           <DialogTitle>Update your todo...</DialogTitle>
-          <div className="flex justify-between items-center gap-x-5">
-            <Input
-              type="text"
-              required
-              value={updateTodo}
-              onChange={handleChange}
-              placeholder="Update your todo..."
-              className="outline-blue-400"
-            />
+        </DialogHeader>
+        <div className="flex justify-between items-center gap-x-5">
+          <Input
+            type="text"
+            required
+            value={updateTodo.content}
+            onChange={(e) =>
+              setUpdateTodo({ ...todo, content: e.target.value })
+            }
+            placeholder="Update your todo..."
+            className="outline-green-400"
+          />
+
+          <DialogClose>
             <button
-              onClick={() => handleUpdate(id, updateTodo)}
-              className="w-[60px] h-[50px] flex justify-center items-center bg-blue-400 hover:bg-opacity-90 rounded-full"
+              type="button"
+              onClick={() => handleUpdate(updateTodo.id, updateTodo.content)}
+              className="w-[50px] h-[50px] flex justify-center items-center bg-green-400 hover:bg-opacity-90 rounded-full"
             >
               <FaEdit className="text-white text-2xl" />
             </button>
-          </div>
-        </DialogHeader>
+          </DialogClose>
+        </div>
       </DialogContent>
     </Dialog>
   );

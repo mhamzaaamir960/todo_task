@@ -12,7 +12,7 @@ const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
   e.preventDefault();
   try {
     const response = await fetch("/api/user/logout");
-    console.log(response);
+    // console.log(response);
     return response;
   } catch (error: any) {
     console.error(`Error: ${error.message}`);
