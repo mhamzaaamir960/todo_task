@@ -1,12 +1,19 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { TiPlus } from "react-icons/ti";
 import AllTodos from "@/components/AllTodos";
 
+interface ProfileData {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export default function Home() {
   const [todo, setTodo] = useState<string>("");
   const [todos, setTodos] = useState<string[]>([]);
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
 
   const handleAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -19,10 +26,24 @@ export default function Home() {
     setTodo("");
   };
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch("/api/user/profile");
+        const data = await response.json();
+        console.log(data);
+        setProfileData(data.data);
+        if (!data) return;
+      } catch (error) {
+        console.log("Error fetching profile data:", error);
+      }
+    })();
+  }, []);
+
   return (
     <main className="w-full flex flex-col justify-start items-center gap-y-3 mt-20">
-      <h1 className="font-bold text-black text-center text-[35px]">
-        Todo List
+      <h1 className="capitalize font-bold text-black text-center text-[35px]">
+        {profileData?.name}, Todo List
       </h1>
       <p className="font-medium text-blue-400 text-center text-[20px]">
         Add your daily todos, update & delete
@@ -43,10 +64,7 @@ export default function Home() {
           <TiPlus className="text-white text-2xl" />
         </button>
       </div>
-      <AllTodos
-        todos={todos}
-        setTodos={setTodos}
-      />
+      <AllTodos todos={todos} setTodos={setTodos} />
     </main>
   );
 }
