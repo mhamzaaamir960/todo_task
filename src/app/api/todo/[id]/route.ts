@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
-  request: NextResponse,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -41,11 +41,8 @@ export async function PATCH(
       },
       { status: 201 }
     );
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Something went wrong!" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 
@@ -75,10 +72,7 @@ export async function DELETE(
       { message: "Todo Deleted Successfully", success: true },
       { status: 200 }
     );
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Something went wrong!" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }

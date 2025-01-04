@@ -18,8 +18,8 @@ function AllTodos({
       if (!response.ok) {
         throw new Error("Failed to delete the todo");
       }
-    } catch (error: any) {
-      console.log(`Error: ${error.message}`);
+    } catch (error: unknown) {
+      console.log(`Error: ${error}`);
       setTodos((prevTodos: Todo[]) => [
         ...prevTodos,
         todos.find((todo: Todo) => todo.id === id)!,
@@ -47,8 +47,8 @@ function AllTodos({
       }
       const data = await response.json();
       console.log(data);
-    } catch (error: any) {
-      console.log(`Error: ${error.message}`);
+    } catch (error: unknown) {
+      console.log(`Error: ${error}`);
     }
   };
 

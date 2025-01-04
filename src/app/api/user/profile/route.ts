@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       message: "User found",
       data: user,
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+  } catch (error: unknown) {
+    return NextResponse.json({ error: error }, { status: 400 });
   }
 }

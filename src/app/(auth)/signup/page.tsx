@@ -9,7 +9,7 @@ interface signUpType {
   password: string;
 }
 
-function page() {
+function SignUpPage() {
   const [data, setData] = useState<signUpType>({
     name: "",
     email: "",
@@ -46,7 +46,7 @@ function page() {
         email: "",
         password: "",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
     }
   };
@@ -93,4 +93,4 @@ function page() {
   );
 }
 
-export default page;
+export default SignUpPage;

@@ -32,11 +32,8 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Something went wrong!" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 
@@ -61,7 +58,7 @@ export async function GET(request: NextRequest) {
       },
       { status: 200 }
     );
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }

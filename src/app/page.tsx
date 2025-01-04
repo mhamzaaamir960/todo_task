@@ -45,8 +45,8 @@ export default function Home() {
       setTodo({ ...todo, content: "" });
 
       return response;
-    } catch (error: any) {
-      console.log(`Error: ${error.message}`);
+    } catch (error: unknown) {
+      console.log(`Error: ${error}`);
     }
   };
 
@@ -75,8 +75,8 @@ export default function Home() {
         }
 
         setTodos(data.todos);
-      } catch (error: any) {
-        console.log(`Error: ${error.message}`);
+      } catch (error: unknown) {
+        console.log(`Error: ${error}`);
       }
     })();
   }, []);

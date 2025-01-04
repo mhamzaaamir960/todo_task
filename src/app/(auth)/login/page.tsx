@@ -8,7 +8,7 @@ interface loginType {
   password: string;
 }
 
-function page() {
+function LogInPage() {
   const [data, setData] = useState<loginType>({
     email: "",
     password: "",
@@ -42,8 +42,8 @@ function page() {
         password: "",
       });
       console.log(response.statusText);
-    } catch (error: any) {
-      console.log(error.message);
+    } catch (error: unknown) {
+      console.log(error);
     }
   };
 
@@ -81,4 +81,4 @@ function page() {
   );
 }
 
-export default page;
+export default LogInPage;

@@ -1,13 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent } from "react";
-
-interface Data {
-  id: string;
-  email: string;
-  name: string;
-}
+import React from "react";
 
 
 function Navbar() {
@@ -22,8 +16,8 @@ function Navbar() {
       } else {
         console.log("Failed to logout! Please try again");
       }
-    } catch (error: any) {
-      console.error(`Error: ${error.message}`);
+    } catch (error: unknown) {
+      console.error(`Error: ${error}`);
     }
   };
   return (
