@@ -2,6 +2,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface loginType {
   email: string;
@@ -13,13 +14,13 @@ function LogInPage() {
     email: "",
     password: "",
   });
-  const router = useRouter();
-
+  
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setData((prevData: loginType) => ({ ...prevData, [name]: value }));
   };
 
+  const router = useRouter();
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -77,6 +78,13 @@ function LogInPage() {
       >
         Login
       </button>
+
+      <p className="text-md mt-5">
+        Don't have an account?{" "}
+        <Link href={"/signup"} className="text-blue-500 hover:underline">
+          Sign Up
+        </Link>
+      </p>
     </form>
   );
 }

@@ -13,11 +13,17 @@ interface ProfileData {
 export interface Todo {
   id: string;
   content: string;
+  isCompleted: boolean;
   userId: string;
 }
 
 export default function Home() {
-  const [todo, setTodo] = useState<Todo>({ id: "", content: "", userId: "" });
+  const [todo, setTodo] = useState<Todo>({
+    id: "",
+    content: "",
+    isCompleted: false,
+    userId: "",
+  });
   const [todos, setTodos] = useState<Todo[]>([]);
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
 

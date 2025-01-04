@@ -2,6 +2,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface signUpType {
   name: string;
@@ -22,7 +23,7 @@ function SignUpPage() {
       (prevData: signUpType) => ({ ...prevData, [name]: value } as signUpType)
     );
   };
-  
+
   const router = useRouter();
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,6 +90,12 @@ function SignUpPage() {
       >
         Sign Up
       </button>
+      <p className="text-md mt-5">
+        Already have an account?{" "}
+        <Link href={"/login"} className="text-blue-500 hover:underline">
+          Login
+        </Link>
+      </p>
     </form>
   );
 }

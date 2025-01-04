@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { MdDelete } from "react-icons/md";
 import UpdateTodoPopUp from "./UpdateTodoPopUp";
 import { Todo } from "@/app/page";
+import { Checkbox } from "./ui/checkbox";
 
 function AllTodos({
   todos,
@@ -52,15 +53,52 @@ function AllTodos({
     }
   };
 
+  const handleIsCompleted = async (id: string, currentIsCompleted: boolean) => {
+    try {
+      setTodos((prevTodos) =>
+        prevTodos.map((todo: Todo) =>
+          todo.id === id ? { ...todo, isCompleted: !currentIsCompleted } : todo
+        )
+      );
+      const response = await fetch(`/api/todo/isCompleted/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isCompleted: !currentIsCompleted }),
+      });
+      console.log(response);
+      if (!response.ok) {
+        throw new Error("Failed to update todo!");
+      }
+    } catch (error: unknown) {
+      console.log(error);
+
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === id ? { ...todo, isCompleted: currentIsCompleted } : todo
+        )
+      );
+    }
+  };
+
   return (
     <div className="max-w-[400px] w-full flex flex-col justify-center items-center gap-y-5 mt-10">
       {todos.length > 0 ? (
         todos.map((todo: Todo) => (
           <div
-            key={todo.id+2}
+            key={todo.id + 2}
             className="w-full h-14 flex justify-between items-center bg-[#F3FBFE] border border-blue-400 rounded-xl p-2"
           >
-            <p>{todo.content}</p>
+            <div className="flex justify-center items-center gap-x-2">
+              <Checkbox
+                checked={todo.isCompleted}
+                onCheckedChange={() => handleIsCompleted(todo.id, todo.isCompleted)}
+                id={todo.id}
+                className="bg-transparent"
+              />
+              <p>{todo.content}</p>
+            </div>
             <div className="flex justify-center items-center gap-x-2">
               <UpdateTodoPopUp todo={todo} handleUpdate={handleUpdate} />
               <MdDelete
