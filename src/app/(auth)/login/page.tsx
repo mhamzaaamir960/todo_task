@@ -80,7 +80,7 @@ function LogInPage() {
       </button>
 
       <p className="text-md mt-5">
-        Don't have an account?{" "}
+        Don{"'"}t have an account?{" "}
         <Link href={"/signup"} className="text-blue-500 hover:underline">
           Sign Up
         </Link>

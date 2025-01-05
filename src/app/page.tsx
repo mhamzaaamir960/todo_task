@@ -4,10 +4,11 @@ import { Input } from "@/components/ui/input";
 import { TiPlus } from "react-icons/ti";
 import AllTodos from "@/components/AllTodos";
 
-interface ProfileData {
+export interface ProfileData {
   id: string;
   name: string;
   email: string;
+  profilePicture?: string;
 }
 
 export interface Todo {

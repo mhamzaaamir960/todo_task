@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     // create new user
     // return a next response
 
-    const { name, email, password } = await request.json();
+    const { name, email, password, profilePicture } = await request.json();
 
     // check fields are not empty
     if ([name, email, password].some((field) => field?.trim() === "")) {
@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
         name: name,
         email: email,
         password: hashPassword,
+        profilePicture: profilePicture,
       },
     });
 

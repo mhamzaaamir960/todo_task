@@ -30,6 +30,8 @@ function AllTodos({
 
   const handleUpdate = async (id: string, updatedTodo: string) => {
     try {
+      if (!updatedTodo || updatedTodo.trim().length === 0) return;
+
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
           todo.id === id ? { ...todo, content: updatedTodo } : todo
@@ -93,7 +95,9 @@ function AllTodos({
             <div className="flex justify-center items-center gap-x-2">
               <Checkbox
                 checked={todo.isCompleted}
-                onCheckedChange={() => handleIsCompleted(todo.id, todo.isCompleted)}
+                onCheckedChange={() =>
+                  handleIsCompleted(todo.id, todo.isCompleted)
+                }
                 id={todo.id}
                 className="bg-transparent"
               />
