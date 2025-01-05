@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import bcrypt from "bcrypt";
+import { uploadImageOnCloudinary } from "@/app/helpers/cloudinary";
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,6 +9,7 @@ export async function POST(request: NextRequest) {
     // check name email and password are not empty
     // check already user exists
     // hash password
+    // image upload on cloudinary
     // create new user
     // return a next response
 
@@ -37,12 +39,14 @@ export async function POST(request: NextRequest) {
 
     const hashPassword = await bcrypt.hash(password, 10);
 
+    const imagePath = await uploadImageOnCloudinary(profilePicture);
+
     const newUser = await db.user.create({
       data: {
         name: name,
         email: email,
         password: hashPassword,
-        profilePicture: profilePicture,
+        profilePicture: imagePath?.url as string,
       },
     });
 

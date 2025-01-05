@@ -51,8 +51,8 @@ function Navbar() {
           <Image
             src={data?.profilePicture}
             alt="Profile Image"
-            width={32}
-            height={32}
+            width={100}
+            height={100}
             priority
             className="w-16 w-16  object-fill rounded-full border-2 border-blue-400 ring-4 ring-white "
           />
